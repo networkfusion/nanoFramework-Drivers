@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "GPS_MTK3339", "GPS_MTK3339\GPS_MTK3339.nfproj", "{B05A5059-BB03-4167-B9EF-BF4FCD224E11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B05A5059-BB03-4167-B9EF-BF4FCD224E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05A5059-BB03-4167-B9EF-BF4FCD224E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05A5059-BB03-4167-B9EF-BF4FCD224E11}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B05A5059-BB03-4167-B9EF-BF4FCD224E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05A5059-BB03-4167-B9EF-BF4FCD224E11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05A5059-BB03-4167-B9EF-BF4FCD224E11}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17280ADD-4FE4-4D6C-AD35-0DEC645EA873}
+	EndGlobalSection
+EndGlobal
