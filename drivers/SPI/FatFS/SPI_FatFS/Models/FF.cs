@@ -1576,7 +1576,7 @@ namespace SPI_FatFS
 
             fs.fs_type = 0;                 /* Clear the filesystem object */
             fs.pdrv = (byte)vol;              /* Bind the logical drive and a physical drive */
-            stat = DiskIO.disk_initialize(fs.pdrv, DiskIO.BusId, DiskIO.chipSelectPin); /* Initialize the physical drive */
+            stat = DiskIO.disk_initialize(fs.pdrv); /* Initialize the physical drive */
             if ((stat & STA_NOINIT) > 0)
             {           /* Check if the initialization succeeded */
                 return FRESULT.FR_NOT_READY;            /* Failed to initialize due to no medium or hard error */
@@ -1736,9 +1736,7 @@ namespace SPI_FatFS
         public FRESULT f_mount(
             ref FATFS fs,		/* Pointer to the filesystem object (NULL:unmount)*/
             string path,        /* Logical drive number to be mounted/unmounted */
-            byte opt,			/* Mode option 0:Do not mount (delayed mount), 1:Mount immediately */
-            string busId,
-            int csPin
+            byte opt			/* Mode option 0:Do not mount (delayed mount), 1:Mount immediately */
         )
         {
             FATFS cfs;

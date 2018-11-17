@@ -37,22 +37,19 @@ namespace SPI_FatFS
 
         #region Hardware specific code
         // GPIO
-        public static GpioPin chipSelectPin;
-        public static string BusId;
+        public static GpioPin ChipSelectPin { get; set; }
+        public static string SPIBusId { get; set; }
 
-        public static void InitializeCpuIO(string busId, GpioPin csPin)
+        public static void InitializeCpuIO()
         {
-            chipSelectPin = csPin;
-            BusId = busId;
-
-            if (chipSelectPin == null)
+            if (ChipSelectPin != null || SPIBusId != string.Empty)
             {
-                chipSelectPin = GpioController.GetDefault().OpenPin(chipSelectPin.PinNumber);
-                chipSelectPin.SetDriveMode(GpioPinDriveMode.Output);
-                chipSelectPin.Write(GpioPinValue.High);
+                Spi.InitSpi(SPIBusId, ChipSelectPin);     /* Initialize ports to control MMC */
             }
-
-            Spi.InitSpi(BusId, chipSelectPin);     /* Initialize ports to control MMC */
+            else
+            {
+                throw new Exception("GPIO Pin or SPI Bus ID not set");
+            }
         }
 
         #endregion
@@ -215,7 +212,7 @@ namespace SPI_FatFS
 
         static void deselect()
         {
-            chipSelectPin.Write(GpioPinValue.High);
+            ChipSelectPin.Write(GpioPinValue.High);
             Spi.RcvSpi();	/* Dummy clock (force DO hi-z for multiple slave SPI) */
         }
 
@@ -228,7 +225,7 @@ namespace SPI_FatFS
         static int select()	/* 1:OK, 0:Timeout */
         {
             /* Set CS# low */
-            chipSelectPin.Write(GpioPinValue.Low);
+            ChipSelectPin.Write(GpioPinValue.Low);
             Spi.RcvSpi();                   /* Dummy clock (force DO enabled) */
             if (wait_ready() > 0) return 1; /* Wait for card ready */
 
@@ -378,9 +375,7 @@ namespace SPI_FatFS
         /*-----------------------------------------------------------------------*/
 
         public static byte disk_initialize(
-            byte drv,		/* Physical drive nmuber (0) */
-            string busId,
-            GpioPin csPin
+            byte drv		/* Physical drive nmuber (0) */
         )
         {
             byte n, ty, cmd;
@@ -392,7 +387,7 @@ namespace SPI_FatFS
             if (drv > 0) return STA_NOINIT;
 
             dly_us(10000);          /* 10ms */
-            InitializeCpuIO(busId, csPin);
+            InitializeCpuIO();
 
 
             for (n = 10; n > 0; n--) rcvr_mmc(ref buf, 1);  /* Apply 80 dummy clocks and the card gets ready to receive command */
