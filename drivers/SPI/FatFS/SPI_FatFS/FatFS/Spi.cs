@@ -8,11 +8,11 @@ namespace SPI_FatFS
         static SpiDevice device = null;
 
         /* usi.S: Initialize MMC control ports */
-        public static void InitSpi(string busId, GpioPin chipSelectLine)
+        public static void InitSpi(string busId, GpioPin chipSelectPin)
         {
             if (device == null)
             {
-                var settings = new SpiConnectionSettings(chipSelectLine.PinNumber)   // The slave's select pin. Not used. CS is controlled by by GPIO pin
+                var settings = new SpiConnectionSettings(chipSelectPin.PinNumber)   // The slave's select pin. Not used. CS is controlled by by GPIO pin
                 {
                     Mode = SpiMode.Mode0,
                     ClockFrequency = 15 * 1000 * 1000,       //15 Mhz

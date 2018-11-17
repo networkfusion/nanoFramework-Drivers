@@ -18,10 +18,10 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="Models\DiskIO.cs" />
-    <Compile Include="Models\Extensions.cs" />
-    <Compile Include="Models\FF.cs" />
-    <Compile Include="Models\Spi.cs" />
+    <Compile Include="FatFS\DiskIO.cs" />
+    <Compile Include="FatFS\Extensions.cs" />
+    <Compile Include="FatFS\FF.cs" />
+    <Compile Include="FatFS\Spi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
