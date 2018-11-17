@@ -1529,9 +1529,7 @@ namespace SPI_FatFS
 
             ref byte[] path,            /* Pointer to pointer to the path name (drive number) */
             ref FATFS rfs,              /* Pointer to pointer to the found filesystem object */
-            byte mode,					/* !=0: Check write protection for write access */
-            string busId,
-            int csPin
+            byte mode					/* !=0: Check write protection for write access */
         )
         {
 
@@ -1578,7 +1576,7 @@ namespace SPI_FatFS
 
             fs.fs_type = 0;                 /* Clear the filesystem object */
             fs.pdrv = (byte)vol;              /* Bind the logical drive and a physical drive */
-            stat = DiskIO.disk_initialize(fs.pdrv, busId, csPin); /* Initialize the physical drive */
+            stat = DiskIO.disk_initialize(fs.pdrv, DiskIO.BusId, DiskIO.chipSelectPin); /* Initialize the physical drive */
             if ((stat & STA_NOINIT) > 0)
             {           /* Check if the initialization succeeded */
                 return FRESULT.FR_NOT_READY;            /* Failed to initialize due to no medium or hard error */
@@ -1772,7 +1770,7 @@ namespace SPI_FatFS
 
             if (opt == 0) return FRESULT.FR_OK;         /* Do not mount now, it will be mounted later */
 
-            res = find_volume(ref rp, ref fs, 0, busId, csPin);       /* Force mount the volume */
+            res = find_volume(ref rp, ref fs, 0);       /* Force mount the volume */
 
             return res;
         }
@@ -1803,7 +1801,7 @@ namespace SPI_FatFS
 
             /* Get logical drive number */
             mode &= (byte)(FA_READ | FA_WRITE | FA_CREATE_ALWAYS | FA_CREATE_NEW | FA_OPEN_ALWAYS | FA_OPEN_APPEND);
-            res = find_volume(ref path, ref fs, mode, busId, csPin);
+            res = find_volume(ref path, ref fs, mode);
             if (res == FRESULT.FR_OK)
             {
                 dj.obj.fs = fs;
@@ -2439,7 +2437,7 @@ namespace SPI_FatFS
             if (dp == null) return FRESULT.FR_INVALID_OBJECT;
 
             /* Get logical drive */
-            res = find_volume(ref path, ref fs, 0, busId, csPin);
+            res = find_volume(ref path, ref fs, 0);
             if (res == FRESULT.FR_OK)
             {
                 dp.obj.fs = fs;
@@ -2551,7 +2549,7 @@ namespace SPI_FatFS
             path = fullFilename.ToNullTerminatedByteArray();
 
             /* Get logical drive */
-            res = find_volume(ref path, ref dj.obj.fs, 0, busId, csPin);
+            res = find_volume(ref path, ref dj.obj.fs, 0);
             if (res == FRESULT.FR_OK)
             {
                 res = follow_path(ref dj, path, ref pathIndex); /* Follow the file path */
@@ -2594,7 +2592,7 @@ namespace SPI_FatFS
             byte[] path = driveNum.ToNullTerminatedByteArray();
 
             /* Get logical drive */
-            res = find_volume(ref path, ref fs, 0, busId, csPin);
+            res = find_volume(ref path, ref fs, 0);
             if (res == FRESULT.FR_OK)
             {
                 fatfs = fs;             /* Return ptr to the fs object */
@@ -2738,7 +2736,7 @@ namespace SPI_FatFS
             path = fullFilename.ToNullTerminatedByteArray();
 
             /* Get logical drive */
-            res = find_volume(ref path, ref fs, FA_WRITE, busId, csPin);
+            res = find_volume(ref path, ref fs, FA_WRITE);
             if (res == FRESULT.FR_OK)
             {
                 dj.obj.fs = fs;
@@ -2823,7 +2821,7 @@ namespace SPI_FatFS
             path = fullFilename.ToNullTerminatedByteArray();
 
             /* Get logical drive */
-            res = find_volume(ref path, ref fs, FA_WRITE, busId, csPin);
+            res = find_volume(ref path, ref fs, FA_WRITE);
             if (res == FRESULT.FR_OK)
             {
                 dj.obj.fs = fs;
@@ -2898,9 +2896,7 @@ namespace SPI_FatFS
 
         public FRESULT f_rename(
             string oldFullFilename,	/* Pointer to the object name to be renamed */
-            string newFullFilename,	/* Pointer to the new name */
-            string busId,
-            int csPin
+            string newFullFilename	/* Pointer to the new name */
         )
         {
 
@@ -2921,7 +2917,7 @@ namespace SPI_FatFS
             path_new = newFullFilename.ToNullTerminatedByteArray();
 
             get_ldnumber(path_new, ref pathNewIndex);                        /* Snip the drive number of new name off */
-            res = find_volume(ref path_old, ref fs, FA_WRITE, busId, csPin);  /* Get logical drive of the old object */
+            res = find_volume(ref path_old, ref fs, FA_WRITE);  /* Get logical drive of the old object */
             if (res == FRESULT.FR_OK)
             {
                 djo.obj.fs = fs;

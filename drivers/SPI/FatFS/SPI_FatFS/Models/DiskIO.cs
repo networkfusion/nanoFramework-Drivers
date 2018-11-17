@@ -37,18 +37,22 @@ namespace SPI_FatFS
 
         #region Hardware specific code
         // GPIO
-        private static GpioPin chipSelectPin;
+        public static GpioPin chipSelectPin;
+        public static string BusId;
 
-        public static void InitializeCpuIO(string busId, int chipSelectLine)
+        public static void InitializeCpuIO(string busId, GpioPin csPin)
         {
+            chipSelectPin = csPin;
+            BusId = busId;
+
             if (chipSelectPin == null)
             {
-                chipSelectPin = GpioController.GetDefault().OpenPin(chipSelectLine);
+                chipSelectPin = GpioController.GetDefault().OpenPin(chipSelectPin.PinNumber);
                 chipSelectPin.SetDriveMode(GpioPinDriveMode.Output);
                 chipSelectPin.Write(GpioPinValue.High);
             }
 
-            Spi.InitSpi(busId, chipSelectLine);     /* Initialize ports to control MMC */
+            Spi.InitSpi(BusId, chipSelectPin);     /* Initialize ports to control MMC */
         }
 
         #endregion
@@ -376,7 +380,7 @@ namespace SPI_FatFS
         public static byte disk_initialize(
             byte drv,		/* Physical drive nmuber (0) */
             string busId,
-            int csPin
+            GpioPin csPin
         )
         {
             byte n, ty, cmd;
