@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace SPI_FatFS
 {
-    static class DiskIO
+    public static class DiskIO
     {
         /*------------------------------------------------------------------------/
         /  Foolproof MMCv3/SDv1/SDv2 (in SPI mode) control module
