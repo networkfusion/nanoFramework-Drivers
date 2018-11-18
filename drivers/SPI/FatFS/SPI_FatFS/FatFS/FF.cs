@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace SPI_FatFS
+namespace SPI.FatFS
 {
     public class FF
     {

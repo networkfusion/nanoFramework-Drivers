@@ -1,7 +1,7 @@
 ﻿using Windows.Devices.Spi;
 using Windows.Devices.Gpio;
 
-namespace SPI_FatFS
+namespace SPI.FatFS
 {
     static class Spi
     {

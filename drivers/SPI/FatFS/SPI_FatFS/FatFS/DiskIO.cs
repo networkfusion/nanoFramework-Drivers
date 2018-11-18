@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace SPI_FatFS
+namespace SPI.FatFS
 {
     public static class DiskIO
     {

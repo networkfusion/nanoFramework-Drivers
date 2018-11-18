@@ -1,11 +1,11 @@
 ﻿using Windows.Devices.Gpio;
 using System;
 using System.Text;
-using static SPI_FatFS.FF;
+using static SPI.FatFS.FF;
 
-namespace SPI_FatFS
+namespace SPI.FatFS
 {
-    static class Extensions
+    public static class Extensions
     {
         public static void ToHi(this GpioPin pin)
         {

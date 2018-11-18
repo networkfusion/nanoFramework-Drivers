@@ -4,10 +4,10 @@ using System.Threading;
 using System.Collections;
 using System.Diagnostics;
 using Windows.Devices.Gpio;
-using SPI_FatFS;
-using static SPI_FatFS.FF;
+using SPI.FatFS;
+using static SPI.FatFS.FF;
 
-namespace SPI_FatFS
+namespace SPI.FatFS.Sample
 {
     public class Program
     {
