@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Text;
 using System.Threading;
 using Windows.Devices.Gpio;
 using SPI_FatFS;
 using static SPI_FatFS.FF;
-using static SPI_FatFS.DiskIO;
 
-namespace SPI_SDCard
+namespace SPI_FatFS
 {
-    class Program
+    public static class Program
     {
-        DiskIO.SPIBusId = "SPI5"; //SET YOUR BUS ID HERE;
-        DiskIO.ChipSelectPin = GpioController.GetDefault().OpenPin(PinNumber('C', 1)); //SET YOUR CS PIN HERE
-
         // c# port of FatFs: http://elm-chan.org/fsw/ff/00index_e.html
 
         static FATFS fs = new FATFS();        /* FatFs work area needed for each volume */
@@ -24,8 +19,11 @@ namespace SPI_SDCard
 
         public static void Main()
         {
+            DiskIO.SPIBusId = "SPI5"; //SET YOUR BUS ID HERE;
+            DiskIO.ChipSelectPin = GpioControllerExtensions.OpenStm32Pin(GpioController.GetDefault(), 'C', 1); //SET YOUR CS PIN HERE
+
             Console.WriteLine("Start");
-            GpioPin led = GpioController.GetDefault().OpenPin(PinNumber('B', 1)); //SET YOUR LED PIN HERE
+            GpioPin led = GpioControllerExtensions.OpenStm32Pin(GpioController.GetDefault(), 'B', 1); //SET YOUR LED PIN HERE
             led.SetDriveMode(GpioPinDriveMode.Output);
             led.Write(GpioPinValue.Low);
 

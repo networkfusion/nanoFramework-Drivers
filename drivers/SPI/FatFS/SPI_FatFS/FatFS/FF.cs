@@ -1780,9 +1780,7 @@ namespace SPI_FatFS
         public FRESULT f_open(
             ref FIL fp,		/* Pointer to the blank file object */
             string fullFilename,    /* Pointer to the file name */
-            byte mode,		/* Access mode and file open mode flags */
-            string busId,
-            int csPin
+            byte mode		/* Access mode and file open mode flags */
         )
         {
             FRESULT res;
@@ -2422,9 +2420,7 @@ namespace SPI_FatFS
 
         public FRESULT f_opendir(
             ref DIR dp,			/* Pointer to directory object to create */
-            byte[] path,	/* Pointer to the directory path */
-            string busId,
-            int csPin
+            byte[] path     	/* Pointer to the directory path */
         )
         {
 
@@ -2534,9 +2530,7 @@ namespace SPI_FatFS
 
         public FRESULT f_stat(
             string fullFilename,  /* Pointer to the file path */
-            ref FILINFO fno,		/* Pointer to file information to return */
-            string busId,
-            int csPin
+            ref FILINFO fno		/* Pointer to file information to return */
         )
         {
             FRESULT res;
@@ -2575,9 +2569,7 @@ namespace SPI_FatFS
         public FRESULT f_getfree(
             string driveNum,  /* Logical drive number */
             ref uint nclst,     /* Pointer to a variable to return number of free clusters */
-            ref FATFS fatfs,		/* Pointer to return pointer to corresponding filesystem object */
-            string busId,
-            int csPin
+            ref FATFS fatfs		/* Pointer to return pointer to corresponding filesystem object */
         )
         {
 
@@ -2717,9 +2709,7 @@ namespace SPI_FatFS
         /*-----------------------------------------------------------------------*/
 
         public FRESULT f_unlink(
-            string fullFilename,		/* Pointer to the file or directory path */
-            string busId,
-            int csPin
+            string fullFilename		/* Pointer to the file or directory path */
         )
         {
 
@@ -2802,9 +2792,7 @@ namespace SPI_FatFS
 
         public FRESULT f_mkdir(
 
-            string fullFilename,		/* Pointer to the directory path */
-            string busId,
-            int csPin
+            string fullFilename		/* Pointer to the directory path */
         )
         {
 
