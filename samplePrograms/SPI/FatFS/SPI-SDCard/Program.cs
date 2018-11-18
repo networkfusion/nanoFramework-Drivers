@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
+using System.Collections;
+using System.Diagnostics;
 using Windows.Devices.Gpio;
 using SPI_FatFS;
 using static SPI_FatFS.FF;
 
 namespace SPI_FatFS
 {
-    public static class Program
+    public class Program
     {
         // c# port of FatFs: http://elm-chan.org/fsw/ff/00index_e.html
 
@@ -20,10 +22,10 @@ namespace SPI_FatFS
         public static void Main()
         {
             DiskIO.SPIBusId = "SPI5"; //SET YOUR BUS ID HERE;
-            DiskIO.ChipSelectPin = GpioControllerExtensions.OpenStm32Pin(GpioController.GetDefault(), 'C', 1); //SET YOUR CS PIN HERE
+            DiskIO.ChipSelectPin = GpioController.GetDefault().OpenStm32Pin('C', 1); //SET YOUR CS PIN HERE
 
             Console.WriteLine("Start");
-            GpioPin led = GpioControllerExtensions.OpenStm32Pin(GpioController.GetDefault(), 'B', 1); //SET YOUR LED PIN HERE
+            GpioPin led = GpioController.GetDefault().OpenStm32Pin('B', 1); //SET YOUR LED PIN HERE
             led.SetDriveMode(GpioPinDriveMode.Output);
             led.Write(GpioPinValue.Low);
 
@@ -73,7 +75,7 @@ namespace SPI_FatFS
             if ((res = FF.Current.f_open(ref Fil, "/sub1/File1.txt", FA_WRITE | FA_CREATE_ALWAYS)) == FF.FRESULT.FR_OK)
             {   /* Create a file */
                 Random rnd = new Random();
-                var payload = $"File contents is: It works ({rnd.Next()})!".ToByteArray();
+                var payload = Encoding.UTF8.GetBytes($"File contents is: It works ({rnd.Next()})!");
                 res = FF.Current.f_write(ref Fil, payload, (uint)payload.Length, ref bw);    /* Write data to the file */
                 res.ThrowIfError();
 

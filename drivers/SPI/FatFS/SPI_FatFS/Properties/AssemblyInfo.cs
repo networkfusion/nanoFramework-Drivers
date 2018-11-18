@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CSharp.BlankApplication")]
+[assembly: AssemblyTitle("SPI-SDCard.ClassLib")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CSharp.BlankApplication")]
+[assembly: AssemblyProduct("SPI-SDCard.ClassLib")]
 [assembly: AssemblyCopyright("Copyright © ")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
