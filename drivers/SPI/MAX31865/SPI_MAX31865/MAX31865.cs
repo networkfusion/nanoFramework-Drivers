@@ -105,14 +105,15 @@ namespace nanoframework.Devices.SPI
 
 
         /// <summary>
-        ///   Initializes SPI connection and control pins</param>
-        ///   <param name="irqPin"> IRQ (Data Ready) pin as a Socket.Pin</param>
-        ///   <param name="cePin"> Chip Enable(CE)/Select(CS) pin as a Socket.Pin</param>
-        ///   <param name="referenceResistor">The reference resistor value (e.g. 400ohm for PT100, 4000ohm for PT1000)</param>
-        ///   <param name="sensor">The type of RTD used</param>
-        ///   <param name="spiClockRateKHZ"> Clock rate in Hz (i.e. 1000000 = 1MHz)</param>
+        ///   Initializes SPI connection and control pins
         /// </summary>
-        public void Initialize(string spiBus, int irqPinNumber, int csPinNumber, byte config, double referenceResistor = 400, SensorType sensor = SensorType.PT100, int spiClockRateKHZ = 1000000)
+        /// <param name="spiBus">The SPI bus to be used</param>
+        /// <param name="irqPinNumber"> IRQ (Data Ready) pin</param>
+        /// <param name="cePinNumber"> Chip Enable(CE)/Select(CS) pin</param>
+        /// <param name="referenceResistor">The reference resistor value (e.g. 400ohm for PT100, 4000ohm for PT1000)</param>
+        /// <param name="sensor">The type of RTD used</param>
+        /// <param name="spiClockRateKHZ"> Clock rate in Hz (i.e. 1000000 = 1MHz)</param>
+        public void Initialize(string spiBus, int irqPinNumber, int csPinNumber, byte config, double referenceResistor = 400, SensorType sensor = SensorType.PT100, int spiClockRateHz = 1000000)
         {
             
             _csPin = GpioController.GetDefault().OpenPin(csPinNumber);
@@ -123,7 +124,7 @@ namespace nanoframework.Devices.SPI
             var connectionSettings = new SpiConnectionSettings(csPinNumber);
             connectionSettings.SharingMode = SpiSharingMode.Shared;
             connectionSettings.DataBitLength = 8;
-            connectionSettings.ClockFrequency = spiClockRateKHZ;
+            connectionSettings.ClockFrequency = spiClockRateHz;
 
             // create SPI device
             _spi = SpiDevice.FromId(spiBus, connectionSettings);
