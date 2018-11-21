@@ -17,7 +17,7 @@ namespace nanoframework.Devices.SPI
         private bool _initialized;
         private GpioPin _irqPin;
         private SpiDevice _spi;
-        private System.Threading.Timer FaultScanner;
+        private Timer FaultScanner;
 
         public delegate void FaultEventHandler(MAX31865 sender, byte DataByte);
         public event FaultEventHandler FaultEvent;
