@@ -11,7 +11,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
 
         public static byte config = (byte)(
             (byte)MAX31865.ConfigValues.VBIAS_ON |
-            (byte)MAX31865.ConfigValues.TWO_WIRE | //with default sensor, but should be 3 or 4wire depending on jumpers
+            (byte)MAX31865.ConfigValues.TWO_WIRE | //note: with default sensor, but should be 3 or 4wire depending on jumpers
             (byte)MAX31865.ConfigValues.FAULT_CLEAR_STATE |
             (byte)MAX31865.ConfigValues.FILTER_60Hz);
 
@@ -21,6 +21,8 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
             Console.WriteLine("MAX31865 Driver Demo.");
 
             MAX31865_Instance = new MAX31865("SPI5", PinNumber('F', 6));
+            //note: if using a PT1000, you should do adjust to fit, e.g.
+            //MAX31865_Instance.Initialize(PinNumber('J', 0), config, 4301, MAX31865.SensorType.PT1000);
             MAX31865_Instance.Initialize(PinNumber('J', 0), config, 400);
 
 
@@ -56,7 +58,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
         public static void EventSenario()
         {
 
-            MAX31865_Instance.SetConvToAuto(); //Auto is 50 or 60hz, do we really want to read that many times per second?
+            MAX31865_Instance.SetConvToAuto(); //Auto is 50 or 60hz, do you really want to read that many times per second? it will heat up the sensor element!
 
             MAX31865_Instance.EnableFaultScanner(1000);
             MAX31865_Instance.FaultEvent += MAX31865_Instance_FaultEvent;
