@@ -12,8 +12,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>MAX31865</RootNamespace>
-    <AssemblyName>MAX31865</AssemblyName>
+    <RootNamespace>nanoFramework.Drivers.Spi.MAX31865</RootNamespace>
+    <AssemblyName>nanoFramework.Drivers.Spi.MAX31865</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
