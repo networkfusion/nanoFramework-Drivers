@@ -1,18 +1,4 @@
-﻿//https://datasheets.maximintegrated.com/en/ds/MAX31865PMB1.pdf
-// this example uses the STM32F769I-Discovery as an example. It needs to be connected as follows:
-//1 cs      -> D3
-//2	mosi    -> A5
-//3	miso    -> A4
-//4 sck     -> D6
-//5 gnd     -> gnd
-//6 vcc     -> 3.3v
-//7 dr      -> D4
-//8
-//9	
-//10	
-//11 gnd    -> gnd
-//12 vcc    -> 3.3v
-
+﻿
 
 using System;
 using System.Threading;
