@@ -1,4 +1,10 @@
 ﻿
+//
+// Copyright (c) 2020 The nanoFramework project contributors
+// Portions Copyright (c) 2020 Robin Jones (NetworkFusion).  All rights reserved.
+// See LICENSE file in the project root for full license information.
+//
+
 namespace nanoFramework.Drivers.Spi.MAX31865
 {
 
@@ -9,7 +15,7 @@ using System;
     using Windows.Devices.Gpio;
 
     /// <summary>
-    /// A MAX31865 module for Microsoft .NET Gadgeteer
+    /// A MAX31865 driver for nanoFramework
     /// </summary>
     public class MAX31865
     {

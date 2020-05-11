@@ -1,4 +1,8 @@
-﻿
+﻿//
+// Copyright (c) 2020 The nanoFramework project contributors
+// Portions Copyright (c) 2020 Robin Jones (NetworkFusion).  All rights reserved.
+// See LICENSE file in the project root for full license information.
+//
 
 using System;
 using System.Threading;
@@ -9,7 +13,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
     {
         private static MAX31865 MAX31865_Instance;
 
-        public static byte config = (byte)(
+        public static byte config = (
             (byte)MAX31865.ConfigValues.VBIAS_ON |
             (byte)MAX31865.ConfigValues.TWO_WIRE | //note: with default sensor, but should be 3 or 4wire depending on jumpers
             (byte)MAX31865.ConfigValues.FAULT_CLEAR_STATE |
