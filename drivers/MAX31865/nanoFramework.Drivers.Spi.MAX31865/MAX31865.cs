@@ -159,10 +159,8 @@ using System;
 
         private void _irqPin_ValueChanged(object sender, GpioPinValueChangedEventArgs e)
         {
-            if (DataReadyFahrenheitEvent != null)
-                DataReadyFahrenheitEvent(this, GetTemperatureFahrenheit());
-            if (DataReadyCelsiusEvent != null)
-                DataReadyCelsiusEvent(this, GetTemperatureCelsius());
+            DataReadyFahrenheitEvent?.Invoke(this, GetTemperatureFahrenheit());
+            DataReadyCelsiusEvent?.Invoke(this, GetTemperatureCelsius());
         }
 
         /// <summary>
@@ -181,12 +179,12 @@ using System;
         /// </summary>
         public void SetConvToManual()
         {
-            byte OldValue = (byte)GetRegister(0x00);
+            byte OldValue = GetRegister(0x00);
             byte NewValue = (byte)((~(byte)ConfigSettings.CONV_MODE & OldValue) | (byte)ConfigValues.CONV_MODE_OFF);
 
             Console.WriteLine("Set Manual: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
   
-            SetRegister(0x00, (byte)NewValue);
+            SetRegister(0x00, NewValue);
         }
 
         /// <summary>
@@ -197,12 +195,12 @@ using System;
             //Make sure we are not running a fault scan
             if ((GetRegister(0x00) & 0x0C) == 0)
             {
-                byte OldValue = (byte)GetRegister(0x00);
+                byte OldValue = GetRegister(0x00);
                 byte NewValue = (byte)((byte)ConfigSettings.ONE_SHOT | OldValue);
 
                 Console.WriteLine("One Shot: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
-                SetRegister(0x00, (byte)NewValue);
+                SetRegister(0x00, NewValue);
                 return true;
             }
             return false;
@@ -218,12 +216,12 @@ using System;
             //Make sure we are not running a fault scan
             if ((GetRegister(0x00) & 0x0C) == 0)
             {
-                byte OldValue = (byte)GetRegister(0x00);
+                byte OldValue = GetRegister(0x00);
                 byte NewValue = (byte)((~(byte)ConfigSettings.CONV_MODE & OldValue) | (byte)ConfigValues.CONV_MODE_AUTO | (byte)ConfigValues.VBIAS_ON);
 
                 Console.WriteLine("Set Auto: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
-                SetRegister(0x00, (byte)NewValue);
+                SetRegister(0x00, NewValue);
                 return true;
             }
             return false;
@@ -259,8 +257,7 @@ using System;
             while ((GetRegister(0x00) & 0x0C) > 0) ;
             byte FaultByte = GetRegister((byte)Register.FLT_STATUS);
             if (FaultByte > 0)
-                if (FaultEvent != null)
-                    FaultEvent(this, FaultByte);
+                FaultEvent?.Invoke(this, FaultByte);
         }
 
 
@@ -277,14 +274,14 @@ using System;
             }
         }
 
-        public void WriteConfigBit(MAX31865.ConfigSettings Setting, MAX31865.ConfigValues Value)
+        public void WriteConfigBit(ConfigSettings Setting, ConfigValues Value)
         {
-            byte OldValue = (byte)GetRegister(0x00);
+            byte OldValue = GetRegister(0x00);
             byte NewValue = (byte)((~(byte)Setting & OldValue) | (byte)Value);
 
             Console.WriteLine("Set Config Bit: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
-            SetRegister(0x00, (byte)NewValue);
+            SetRegister(0x00, NewValue);
         }
 
         public void EnableFaultScanner(int interval)
@@ -301,11 +298,10 @@ using System;
         private int GetADCRegisterData()
         {
             //Shift MSB to the left 8 bits)
-            int RTDVala = (int)(GetRegister(0x01) << 8);
-            int RTDValb = (int)(GetRegister(0x02));
+            int RTDVala = GetRegister(0x01) << 8;
+            int RTDValb = GetRegister(0x02);
             if ((GetRegister(0x02) & 0x01) > 0)
-                if (FaultEvent != null)
-                    FaultEvent(this, GetRegister((byte)Register.FLT_STATUS));
+                FaultEvent?.Invoke(this, GetRegister((byte)Register.FLT_STATUS));
             //FaultEvent(this, );
             //Merge bytes
             return (RTDVala | RTDValb);
@@ -327,7 +323,7 @@ using System;
 
             float c = 1.0F - GetResistance() / (int)Sensor; //100 for PT100, 1000 for PT1000
             float d = bSq - 2.0F * a2 * c;
-            return (-RTD_ALPHA + System.Math.Sqrt(d)) / a2;
+            return (-RTD_ALPHA + Math.Sqrt(d)) / a2;
         }
 
         public float GetTemperatureFahrenheit()
