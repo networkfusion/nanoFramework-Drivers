@@ -110,7 +110,7 @@ using System;
 
 
         /// <summary>
-        /// 
+        /// Opens the SPI connection and control pin
         /// </summary>
         /// <param name="spiBus">The SPI bus</param>
         /// <param name="csPin">Chip Enable(CE)/Select(CS) pin</param>
@@ -132,7 +132,7 @@ using System;
 
 
         /// <summary>
-        ///   Initializes SPI connection and control pins</param>
+        ///   Initializes the driver according to your sensor</param>
         ///   <param name="irqPin"> IRQ (Data Ready) pin as a Socket.Pin</param>
         ///   <param name="config"> The configuration of the sensor</param>
         ///   <param name="referenceResistor">The reference resistor value (e.g. 400ohm for PT100, 4000ohm for PT1000)</param>
@@ -143,7 +143,7 @@ using System;
 
             _irqPin = GpioController.GetDefault().OpenPin(irqPin);
             _irqPin.SetDriveMode(GpioPinDriveMode.InputPullUp);
-            _irqPin.ValueChanged += _irqPin_ValueChanged; //_irqPin_Interrupt;
+            _irqPin.ValueChanged += _irqPin_ValueChanged;
 
 
             _initialized = true;
@@ -313,7 +313,7 @@ using System;
 
         public float GetResistance()
         {
-            const float x = 32768; //System.Math.Pow(2, 15); = 32768 so we will use the constant
+            const float x = 32768; //System.Math.Pow(2, 15); = 32768 so we will use the constant for speed!
             var adcValue = (GetADCRegisterData() >> 1); //shift the value by 1 bit as the lsb is an error flag
             return ((adcValue * ReferenceReistor) / x); //MAX31865 has a 15bit resolution
         }
