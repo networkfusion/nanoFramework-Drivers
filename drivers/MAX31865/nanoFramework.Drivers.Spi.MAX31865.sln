@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "MAX31865-Sample", "MAX31865-Sample\MAX31865-Sample.nfproj", "{80B9BFDD-07E7-4B3B-B346-75FE00B7DF05}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoFramework.Drivers.Spi.MAX31865.Sample", "nanoFramework.Drivers.Spi.MAX31865.Sample\nanoFramework.Drivers.Spi.MAX31865.Sample.nfproj", "{80B9BFDD-07E7-4B3B-B346-75FE00B7DF05}"
+EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoFramework.Drivers.Spi.MAX31865", "nanoFramework.Drivers.Spi.MAX31865\nanoFramework.Drivers.Spi.MAX31865.nfproj", "{16035775-D41B-4E40-ADB2-8C2E9D2B7FF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,12 @@ Global
 		{80B9BFDD-07E7-4B3B-B346-75FE00B7DF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80B9BFDD-07E7-4B3B-B346-75FE00B7DF05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80B9BFDD-07E7-4B3B-B346-75FE00B7DF05}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{16035775-D41B-4E40-ADB2-8C2E9D2B7FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16035775-D41B-4E40-ADB2-8C2E9D2B7FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16035775-D41B-4E40-ADB2-8C2E9D2B7FF5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{16035775-D41B-4E40-ADB2-8C2E9D2B7FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16035775-D41B-4E40-ADB2-8C2E9D2B7FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16035775-D41B-4E40-ADB2-8C2E9D2B7FF5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

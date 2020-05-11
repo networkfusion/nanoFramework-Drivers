@@ -1,5 +1,5 @@
 ﻿
-namespace NetworkFusion.Drivers
+namespace nanoFramework.Drivers.Spi.MAX31865
 {
 
 using System;

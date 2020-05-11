@@ -1,21 +1,23 @@
 ﻿//https://datasheets.maximintegrated.com/en/ds/MAX31865PMB1.pdf
-//1	3.3v -> 3.3v
-//2
-//3 irq -> dr -> D4
-//4
-//5	
-//6	cs -> cs -> D3
-//7	mosi -> sdi -> A5
-//8	miso -> sdo -> A4
-//9	sck -> sclk  -> D6
-//10 gnd -> gnd
+// this example uses the STM32F769I-Discovery as an example. It needs to be connected as follows:
+//1 cs      -> D3
+//2	mosi    -> A5
+//3	miso    -> A4
+//4 sck     -> D6
+//5 gnd     -> gnd
+//6 vcc     -> 3.3v
+//7 dr      -> D4
+//8
+//9	
+//10	
+//11 gnd    -> gnd
+//12 vcc    -> 3.3v
 
 
 using System;
 using System.Threading;
-using NetworkFusion.Drivers;
 
-namespace MAX31865_Sample
+namespace nanoFramework.Drivers.Spi.MAX31865.Sample
 {
     public class Program
     {
@@ -53,9 +55,11 @@ namespace MAX31865_Sample
             {
                 ExecuteOneshot();
 
-                //    var trunkatedTemp = System.Math.Truncate((temperature * 100) / 100);
-                //    if (temperature > -150 && temperature < 150) // on startup the sensor can show -248 before it has been initialised properly ?! if the ADC is not attached it will read more 855
+                //note: on startup the sensor can show -248 before it has been initialised properly ?! if the ADC is not attached it will read more 855
+                //    if (temperature > -150 && temperature < 150) 
                 Console.WriteLine($"Fault Status: {GetFaultStatus()}, config: {GetCurrentConfig()}");
+                // note: reading a sensor past their default accuracy is not really helpful, for production, it would would be wise to use something like:
+                //    var trunkatedTemp = System.Math.Truncate((GetTemperature() * 100) / 100);
                 Console.WriteLine($"{i++}: temperature: {GetTemperature()}, resistance: {GetResistance()}");
 
                 Thread.Sleep(15000); //15 seconds is about right to stop self heating from occuring on the sensor
