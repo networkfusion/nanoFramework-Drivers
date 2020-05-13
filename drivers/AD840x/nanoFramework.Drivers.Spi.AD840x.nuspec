@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>nanoFramework.Drivers.Spi.AD840x</id>
+    <version>$version$</version>
+    <title>nanoFramework.Drivers.Spi.AD840x</title>
+    <authors>NetworkFusion & nanoFramework project contributors</authors>
+    <owners>NetworkFusion & nanoFramework project contributors</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <releaseNotes>
+    </releaseNotes>
+    <developmentDependency>false</developmentDependency>
+    <projectUrl>https://github.com/networkfusion/nanoFramework-Drivers.Json</projectUrl>
+    <iconUrl>https://secure.gravatar.com/avatar/97d0e092247f0716db6d4b47b7d1d1ad</iconUrl>
+    <repository type="git" url="https://github.com/networkfusion/nanoFramework-Drivers.Json" commit="$commit$" />
+    <copyright>Copyright (c) 2020 NetworkFusion & The nanoFramework project contributors</copyright>
+    <description>This package includes the nanoFramework.Drivers.Spi.AD840x assembly for nanoFramework C# projects.</description>
+    <summary>nanoFramework.Drivers.Spi.AD840x assembly for nanoFramework C# projects</summary>
+    <tags>NetworkFusion nanoFramework C# csharp netmf netnf nanoFramework.Drivers.Spi.AD840x</tags>
+    <dependencies>
+      <dependency id="nanoFramework.CoreLibrary" version="1.7.0-preview.12" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="nanoFramework.Drivers.Spi.MAX31865\bin\Release\nanoFramework.Drivers.Spi.AD840x.dll" target="lib\nanoFramework.Drivers.Spi.AD840x.dll" />
+    <file src="nanoFramework.Drivers.Spi.MAX31865\bin\Release\nanoFramework.Drivers.Spi.AD840x.pdb" target="lib\nanoFramework.Drivers.Spi.AD840x.pdb" />
+    <file src="nanoFramework.Drivers.Spi.MAX31865\bin\Release\nanoFramework.Drivers.Spi.AD840x.pdbx" target="lib\nanoFramework.Drivers.Spi.AD840x.pdbx" />
+    <file src="nanoFramework.Drivers.Spi.MAX31865\bin\Release\nanoFramework.Drivers.Spi.AD840x.Json.pe" target="lib\nanoFramework.Drivers.Spi.AD840x.pe" />
+    <file src="nanoFramework.Drivers.Spi.MAX31865\bin\Release\nanoFramework.Drivers.Spi.AD840x.xml" target="lib\nanoFramework.Drivers.Spi.AD840x.xml" />
+    <!-- readme -->
+    <file src="readme.txt" target="readme.txt" />
+  </files>
+</package>
