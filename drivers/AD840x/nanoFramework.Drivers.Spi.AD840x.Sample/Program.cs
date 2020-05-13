@@ -4,6 +4,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using nanoFramework.Runtime.Native;
 using System;
 using System.Threading;
 
@@ -16,7 +17,7 @@ namespace nanoFramework.Drivers.Spi
 
         public static void Main()
         {
-            Console.WriteLine("AD8403 Sample App!");
+            Debug.WriteLine("AD8403 Sample App!");
 
             //Using an STM32F769I-Discovery
             _digitalPot = new AD840x("SPI5", PinNumber('F', 6), PinNumber('J', 0));

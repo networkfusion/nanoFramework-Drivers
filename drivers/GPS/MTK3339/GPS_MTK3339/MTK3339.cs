@@ -26,6 +26,7 @@ using System.Threading;
 using Windows.Devices.SerialCommunication;
 using Windows.Storage.Streams;
 using Windows.Devices.Gpio;
+using nanoFramework.Runtime.Native;
 
 namespace nanoframework.Devices.GPS
 {
@@ -684,31 +685,31 @@ namespace nanoframework.Devices.GPS
                         //debug functions:
                         case "$PMTK011": //fall through!
                         case "$PMTK010": //System Message
-                            if (Debugger.IsAttached) { Console.WriteLine("GPS Successfully initialised with state :" + data[1]); } //002 = awake
+                            Debug.WriteLine("GPS Successfully initialised with state :" + data[1]); //002 = awake
                             break;
                         case "$PMTK869":
-                            if (Debugger.IsAttached) { Console.WriteLine("GPS Embedded Assist Enabled: " + data[2]); }
+                            Debug.WriteLine("GPS Embedded Assist Enabled: " + data[2]);
                             break;
                         case "$PMTK513":
-                            if (Debugger.IsAttached) { Console.WriteLine("GPS SBAS Enabled: " + data[1]); }
+                            Debug.WriteLine("GPS SBAS Enabled: " + data[1]);
                             break;
                         case "$PMTK527":
-                            if (Debugger.IsAttached) { Console.WriteLine("GPS Speed Threshold: " + data[1]); }
+                            Debug.WriteLine("GPS Speed Threshold: " + data[1]);
                             break;
                         default:
-                            if (Debugger.IsAttached) { Console.WriteLine("GPS Unknown Packet Received: " + line); }
+                            Debug.WriteLine("GPS Unknown Packet Received: " + line);
                             break;
                     }
                 }
                 catch (Exception)
                 {
-                    if (Debugger.IsAttached) { Console.WriteLine("Parse error"); }
+                    Debug.WriteLine("Parse error");
                     OnError(this, line);
                 }
             }
             else
             {
-                if (Debugger.IsAttached) { Console.WriteLine(line); }
+                Debug.WriteLine(line);
             }
         }
 
@@ -1295,7 +1296,7 @@ namespace nanoframework.Devices.GPS
 
             if (this.epoFileData.Length % 1920 != 0)
             {
-                if (Debugger.IsAttached) { Console.WriteLine("EPO File is corrupt"); }
+                Debug.WriteLine("EPO File is corrupt");
             }
             else
             {
@@ -1310,7 +1311,7 @@ namespace nanoframework.Devices.GPS
                 //serialPort.Open();
 
                 this.SendEpoPacket();
-                if (Debugger.IsAttached) { Console.WriteLine("Starting to send epo packets"); }
+                Debug.WriteLine("Starting to send epo packets");
             }
 
         }
@@ -1319,7 +1320,7 @@ namespace nanoframework.Devices.GPS
         {
             if (this.flagStop)
             {
-                if (Debugger.IsAttached) { Console.WriteLine("finished EPO file setup, going back to nema mode"); }
+                Debug.WriteLine("finished EPO file setup, going back to nema mode");
                 this.finalEpoPacketRequired = false;
                 this.flagStop = false;
                 this.SetModeNMEA(9600);
@@ -1332,7 +1333,7 @@ namespace nanoframework.Devices.GPS
 
             if (this.finalEpoPacketRequired)
             {
-                if (Debugger.IsAttached) { Console.WriteLine("sending the final epo packet"); }
+                Debug.WriteLine("sending the final epo packet");
                 this.flagStop = true;
                 this.epoCount = 65535; //0xffff
 
@@ -1345,7 +1346,7 @@ namespace nanoframework.Devices.GPS
 
             if (this.epoCount < 10)
             {
-                if (Debugger.IsAttached) { Console.WriteLine("sending an epo packet"); }
+                Debug.WriteLine("sending an epo packet");
 
                 this.GenerateEpoPacket(180);
                 outputDataWriter.WriteBytes(this.epoPacket);
@@ -1355,7 +1356,7 @@ namespace nanoframework.Devices.GPS
             else //generate second to last packet
             {
                 int num = epoFileData.Length - currentFileDataIndex; //should be 120?!
-                if (Debugger.IsAttached) { Console.WriteLine("got " + num + ". It should be 120... but is it?"); }
+                Debug.WriteLine("got " + num + ". It should be 120... but is it?");
                 if (num % (SatSetSize * 2) == 0) //is this check actually needed?
                 {
                     this.GenerateEpoPacket(num);
@@ -1420,7 +1421,7 @@ namespace nanoframework.Devices.GPS
             serialDevice.BaudRate = baudRate;
             currentProtocol = CommsProtocol.ASCII;
             //serialDevice.Open();
-            if (Debugger.IsAttached) { Console.WriteLine("Set to NEMA mode"); }
+            Debug.WriteLine("Set to NEMA mode");
         }
 
         byte GenerateChecksum(byte[] packet)
@@ -1466,7 +1467,7 @@ namespace nanoframework.Devices.GPS
                                 receivedBytes[i] = inputDataReader.ReadByte();
                                 if (receivedBytes[i] == 0x24)
                                 {
-                                    //Console.WriteLine("got packet start");
+                                    //Debug.WriteLine("got packet start");
                                     i++;
                                     while (true)
                                     {
@@ -1476,7 +1477,7 @@ namespace nanoframework.Devices.GPS
                                         {
                                             if (currentProtocol == CommsProtocol.Binary)
                                             {
-                                                //Console.WriteLine("got packet end");
+                                                //Debug.WriteLine("got packet end");
                                                 ParseACK(receivedBytes);
                                             }
                                             else
@@ -1497,7 +1498,7 @@ namespace nanoframework.Devices.GPS
             }
             catch (Exception ex)
             {
-                if (Debugger.IsAttached) { Console.WriteLine("binary mode: error receiving bytes, " + ex); }
+                Debug.WriteLine("binary mode: error receiving bytes, " + ex);
             }
         }
 
@@ -1514,31 +1515,31 @@ namespace nanoframework.Devices.GPS
                     if (receivedBytes[8] != 0x01) //the sent epo data was unsuccessful
                     {
                         this.SetModeNMEA(9600);
-                        if (Debugger.IsAttached) { Console.WriteLine("EPO File is corrupt at packet" + (epoCount - 1) + ", exiting"); }
+                        Debug.WriteLine("EPO File is corrupt at packet" + (epoCount - 1) + ", exiting");
                         success = true;
                     }
                     else
                     {
-                        if (Debugger.IsAttached) { Console.WriteLine("EPO packet successful, sending the next one"); }
+                        Debug.WriteLine("EPO packet successful, sending the next one");
                         this.SendEpoPacket();
                     }
                 }
                 if (!success)
                 {
-                    if (Debugger.IsAttached) { Console.WriteLine("Packet incorrect, ignoring"); }
+                    Debug.WriteLine("Packet incorrect, ignoring");
 
                     this.failCount++;
                 }
                 if (this.failCount >= 20)
                 {
                     this.SetModeNMEA(9600);
-                    if (Debugger.IsAttached) { Console.WriteLine("EPO File upload has failed too many times, exiting."); }
+                    Debug.WriteLine("EPO File upload has failed too many times, exiting.");
                 }
 
             }
             catch (Exception ex)
             {
-                if (Debugger.IsAttached) { Console.WriteLine(ex.ToString()); }
+                Debug.WriteLine(ex.ToString());
                 this.SetModeNMEA(9600);
             }
 

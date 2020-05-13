@@ -13,6 +13,7 @@ using System;
     using System.Threading;
     using Windows.Devices.Spi;
     using Windows.Devices.Gpio;
+    using nanoFramework.Runtime.Native;
 
     /// <summary>
     /// A MAX31865 driver for nanoFramework
@@ -168,9 +169,7 @@ using System;
         /// </summary>
         public void ResetConfig()
         {
-# if DEBUG
-            Console.WriteLine("Reset Config: From:" + GetRegister(0x00).ToString("X") + " To:" + _config.ToString("X"));
-#endif
+            Debug.WriteLine("Reset Config: From:" + GetRegister(0x00).ToString("X") + " To:" + _config.ToString("X"));
 
             SetRegister(0x00, _config);
         }
@@ -184,9 +183,7 @@ using System;
             byte OldValue = GetRegister(0x00);
             byte NewValue = (byte)((~(byte)ConfigSettings.CONV_MODE & OldValue) | (byte)ConfigValues.CONV_MODE_OFF);
 
-#if DEBUG
-            Console.WriteLine("Set Manual: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
-#endif
+            Debug.WriteLine("Set Manual: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
             SetRegister(0x00, NewValue);
         }
@@ -202,9 +199,7 @@ using System;
                 byte OldValue = GetRegister(0x00);
                 byte NewValue = (byte)((byte)ConfigSettings.ONE_SHOT | OldValue);
 
-#if DEBUG
-                Console.WriteLine("One Shot: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
-#endif
+                Debug.WriteLine("One Shot: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
                 SetRegister(0x00, NewValue);
                 return true;
@@ -225,9 +220,7 @@ using System;
                 byte OldValue = GetRegister(0x00);
                 byte NewValue = (byte)((~(byte)ConfigSettings.CONV_MODE & OldValue) | (byte)ConfigValues.CONV_MODE_AUTO | (byte)ConfigValues.VBIAS_ON);
 
-#if DEBUG
-                Console.WriteLine("Set Auto: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
-#endif
+                Debug.WriteLine("Set Auto: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
                 SetRegister(0x00, NewValue);
                 return true;
@@ -244,9 +237,7 @@ using System;
             byte OldValue = GetRegister(0x00);
             byte NewValue = (byte)((OldValue & 0xD3) | 0x02); //Everything by D5,D3 and D2...plus the falut clear bit
 
-#if DEBUG
-            Console.WriteLine("Clear Faults: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
-#endif
+            Debug.WriteLine("Clear Faults: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
             SetRegister(0x00, NewValue);
             if ((OldValue & 0x40) > 0) SetConvToAuto();
@@ -261,9 +252,7 @@ using System;
             //Write 100x010x by keeping existing values for ...x...x and adding 0x84
             byte NewValue = (byte)((OldValue & 0x11) | 0x84); //Everything by D5,D3 and D2...plus the falut clear bit
 
-#if DEBUG
-            Console.WriteLine("Run Fault Scan: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
-#endif
+            Debug.WriteLine("Run Fault Scan: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
             SetRegister(0x00, NewValue);
             while ((GetRegister(0x00) & 0x0C) > 0) ;
@@ -291,9 +280,7 @@ using System;
             byte OldValue = GetRegister(0x00);
             byte NewValue = (byte)((~(byte)Setting & OldValue) | (byte)Value);
 
-#if DEBUG
-            Console.WriteLine("Set Config Bit: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
-#endif
+            Debug.WriteLine("Set Config Bit: Old:" + OldValue.ToString("X") + " New:" + NewValue.ToString("X"));
 
             SetRegister(0x00, NewValue);
         }

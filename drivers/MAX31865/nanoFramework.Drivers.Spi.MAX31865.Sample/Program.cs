@@ -4,6 +4,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using nanoFramework.Runtime.Native;
 using System;
 using System.Threading;
 
@@ -22,7 +23,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
 
         public static void Main()
         {
-            Console.WriteLine("MAX31865 Driver Demo.");
+            Debug.WriteLine("MAX31865 Driver Demo.");
 
             MAX31865_Instance = new MAX31865("SPI5", PinNumber('F', 6));
             //note: if using a PT1000, you should do adjust to fit, e.g.
@@ -41,7 +42,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
 
             var i = 0;
 
-            Console.WriteLine("PRT Data:");
+            Debug.WriteLine("PRT Data:");
 
             for ( ; ; )
             {
@@ -49,10 +50,10 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
 
                 //note: on startup the sensor can show -248 before it has been initialised properly ?! if the ADC is not attached it will read more 855
                 //    if (temperature > -150 && temperature < 150) 
-                Console.WriteLine($"Fault Status: {GetFaultStatus()}, config: {GetCurrentConfig()}");
+                Debug.WriteLine($"Fault Status: {GetFaultStatus()}, config: {GetCurrentConfig()}");
                 // note: reading a sensor past their default accuracy is not really helpful, for production, it would would be wise to use something like:
                 //    var trunkatedTemp = System.Math.Truncate((GetTemperature() * 100) / 100);
-                Console.WriteLine($"{i++}: temperature: {GetTemperature()}, resistance: {GetResistance()}");
+                Debug.WriteLine($"{i++}: temperature: {GetTemperature()}, resistance: {GetResistance()}");
 
                 Thread.Sleep(15000); //15 seconds is about right to stop self heating from occuring on the sensor
             }
@@ -109,13 +110,13 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
 
         public static void MAX31865_Instance_DataReadyCelEvent(MAX31865 sender, float Data)
         {
-            Console.WriteLine("Temperature: " + GetTemperature() + "c ");
+            Debug.WriteLine("Temperature: " + GetTemperature() + "c ");
         }
 
 
         public static void MAX31865_Instance_FaultEvent(MAX31865 sender, byte FaultByte)
         {
-            Console.WriteLine("Fault: " + FaultByte.ToString("X"));
+            Debug.WriteLine("Fault: " + FaultByte.ToString("X"));
             MAX31865_Instance.ClearFaults();
         }
 
