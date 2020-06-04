@@ -7,13 +7,11 @@
 
 namespace nanoFramework.Drivers.Spi.MAX31865
 {
-
-using System;
-
+    using System;
     using System.Threading;
     using Windows.Devices.Spi;
     using Windows.Devices.Gpio;
-    using nanoFramework.Runtime.Native;
+    using System.Diagnostics;
 
     /// <summary>
     /// A MAX31865 driver for nanoFramework
