@@ -39,7 +39,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865
         ///<Summary>
         /// Config Bits
         ///</Summary>
-        public enum ConfigValues
+        public enum ConfigValues : byte
         {
             //D7
             VBIAS_ON = 0x80,
@@ -65,7 +65,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865
             FILTER_60Hz = 0x00
         }
 
-        public enum ConfigSettings
+        public enum ConfigSettings :byte
         {
             VBIAS = 0x80,
             CONV_MODE = 0x40,
@@ -76,7 +76,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865
             FILTER = 0x01
         }
 
-        enum FaultBits
+        enum FaultBits : byte
         {
             RTD_HI_THRESH = 0x80,
             RTD_LO_THRESH = 0x40,
@@ -86,7 +86,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865
             UNDERVOLT = 0x04
         }
 
-        public enum Register
+        public enum Register : byte
         {
             CONFIG = 0x00,
             RTD_MSB = 0x01,
@@ -315,8 +315,8 @@ namespace nanoFramework.Drivers.Spi.MAX31865
 
         public float GetTemperatureCelsius()
         {
-            const float RTD_ALPHA = 3.90802e-3F; //ITS90 = 3.9080e-3
-            const float RTD_BETA = -5.802e-7F; //ITS90 = -5.870
+            const float RTD_ALPHA = 3.9083e-3F;
+            const float RTD_BETA = -5.775e-7F;
             const float a2 = 2.0F * RTD_BETA;
             const float bSq = RTD_ALPHA * RTD_ALPHA;
 
@@ -324,6 +324,46 @@ namespace nanoFramework.Drivers.Spi.MAX31865
             float d = bSq - 2.0F * a2 * c;
             return (-RTD_ALPHA + Math.Sqrt(d)) / a2;
         }
+
+        //Alternative way...
+        //public float GetTemperatureCelsius()
+        //{
+        //    const float RTD_A = 3.9083e-3F;
+        //    const float RTD_B = -5.775e-7F;
+
+        //    float Z1, Z2, Z3, Z4, Rt, temp;
+
+        //    Rt = GetResistance();
+
+        //    Z1 = -RTD_A;
+        //    Z2 = RTD_A * RTD_A - (4 * RTD_B);
+        //    Z3 = (4 * RTD_B) / (int)Sensor; //100 for PT100, 1000 for PT1000
+        //    Z4 = 2 * RTD_B;
+
+        //    temp = Z2 + (Z3 * Rt);
+        //    temp = (Math.Sqrt(temp) + Z1) / Z4;
+
+        //    if (temp >= 0)
+        //        return temp;
+
+        //    Rt /= (int)Sensor; //100 for PT100, 1000 for PT1000
+        //    Rt *= 100;
+
+        //    float rpoly = Rt;
+
+        //    temp = -242.02f;
+        //    temp += 2.2228f * rpoly;
+        //    rpoly *= Rt; // square
+        //    temp += 2.5859e-3f * rpoly;
+        //    rpoly *= Rt; // ^3
+        //    temp -= 4.8260e-6f * rpoly;
+        //    rpoly *= Rt; // ^4
+        //    temp -= 2.8183e-8f * rpoly;
+        //    rpoly *= Rt; // ^5
+        //    temp += 1.5243e-10f * rpoly;
+
+        //    return temp;
+        //}
 
         public float GetTemperatureFahrenheit()
         {

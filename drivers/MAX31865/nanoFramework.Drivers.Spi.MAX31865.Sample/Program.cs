@@ -28,7 +28,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
             MAX31865_Instance = new MAX31865("SPI5", PinNumber('F', 6));
             //note: if using a PT1000, you should do adjust to fit, e.g.
             //MAX31865_Instance.Initialize(PinNumber('J', 0), config, 4301, MAX31865.SensorType.PT1000);
-            MAX31865_Instance.Initialize(PinNumber('J', 0), config, 400);//399.72302f);
+            MAX31865_Instance.Initialize(PinNumber('J', 0), config, 400.025f);
 
 
             PollingSenario();
@@ -41,12 +41,16 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
             MAX31865_Instance.SetConvToManual();
 
             var i = 0;
+            var settlingTime = 10; //10ms
 
             Debug.WriteLine("PRT Data:");
 
             for ( ; ; )
             {
-                ExecuteOneshot();
+                //ExecuteOneshot(); could be used, but more accurate results can be acheived by allowing the sensor to settle through multiple polls.
+                MAX31865_Instance.SetConvToAuto();
+                Thread.Sleep(settlingTime);
+                MAX31865_Instance.SetConvToManual();
 
                 //note: on startup the sensor can show -248 before it has been initialised properly ?! if the ADC is not attached it will read more 855
                 //    if (temperature > -150 && temperature < 150) 
@@ -55,7 +59,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865.Sample
                 //    var trunkatedTemp = System.Math.Truncate((GetTemperature() * 100) / 100);
                 Debug.WriteLine($"{i++}: temperature: {GetTemperature()}, resistance: {GetResistance()}");
 
-                Thread.Sleep(15000); //15 seconds is about right to stop self heating from occuring on the sensor
+                Thread.Sleep(15000 - settlingTime); //15 seconds is about right to stop self heating from occuring on the sensor
             }
         }
 
