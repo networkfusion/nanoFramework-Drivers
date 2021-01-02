@@ -20,7 +20,7 @@ namespace nanoFramework.Drivers.Spi.MAX31865
     {
         private bool _initialized;
         private GpioPin _irqPin;
-        private SpiDevice _spiDevice;
+        private readonly SpiDevice _spiDevice;
         private Timer FaultScanner;
         private byte _config;
 
@@ -117,12 +117,14 @@ namespace nanoFramework.Drivers.Spi.MAX31865
         {
             // Chip Select : Active Low
             // Clock : Active High, Data clocked in on rising edge
-            var connectionSettings = new SpiConnectionSettings(csPin);
-            connectionSettings.DataBitLength = 8;
-            connectionSettings.ClockFrequency = 4 * 1000 * 1000; //- max 5MHz
-            connectionSettings.BitOrder = DataBitOrder.MSB;
-            connectionSettings.Mode = SpiMode.Mode1; //supports 1 and 3
-            connectionSettings.SharingMode = SpiSharingMode.Shared;
+            var connectionSettings = new SpiConnectionSettings(csPin)
+            {
+                DataBitLength = 8,
+                ClockFrequency = 4 * 1000 * 1000, //- max 5MHz
+                BitOrder = DataBitOrder.MSB,
+                Mode = SpiMode.Mode1, //supports 1 and 3
+                SharingMode = SpiSharingMode.Shared
+            };
 
             // create SPI device for Max31865
             _spiDevice = SpiDevice.FromId(spiBus, connectionSettings);
